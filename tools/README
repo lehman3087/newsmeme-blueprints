@@ -1,0 +1,7 @@
+使用说明
+------------
+
+remove_pyc 是删除 .pyc 的小工具。
+
+使用方式: python remove_pyc.py [文件夹]
+例如： python remove_pyc.py ../newsmeme
