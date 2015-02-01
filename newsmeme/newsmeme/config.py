@@ -48,7 +48,7 @@ class DefaultConfig(object):
     MAIL_PASSWORD = u'123'
     DEFAULT_MAIL_SENDER = u'service@newsmeme.com'
 
-    ACCEPT_LANGUAGES = ['en', 'fi']
+    ACCEPT_LANGUAGES = ['zh_CN', 'en', 'fi']
 
     DEBUG_LOG = 'logs/debug.log'
     ERROR_LOG = 'logs/error.log'

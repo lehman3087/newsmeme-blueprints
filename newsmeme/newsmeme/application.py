@@ -21,10 +21,11 @@ from flask.ext.babel import Babel, gettext as _
 from flask.ext.themes import setup_themes
 from flask.ext.principal import Principal, identity_loaded
 
+from werkzeug import import_string
 from newsmeme import helpers
-from newsmeme import views
 from newsmeme.config import DefaultConfig
-from newsmeme.models import User, Tag
+from newsmeme.apps.account import User
+from newsmeme.apps.post import Tag
 from newsmeme.helpers import render_template
 from newsmeme.extensions import db, mail, oid, cache
 
@@ -32,25 +33,25 @@ __all__ = ["create_app"]
 
 DEFAULT_APP_NAME = "newsmeme"
 
-DEFAULT_MODULES = (
-    (views.frontend, ""),
-    (views.post, "/post"),
-    (views.user, "/user"),
-    (views.comment, "/comment"),
-    (views.account, "/acct"),
-    (views.feeds, "/feeds"),
-    (views.openid, "/openid"),
-    (views.api, "/api"),
+DEFAULT_BLUEPRINTS = (
+    ("newsmeme.apps.frontend", "frontend", ""),
+    ("newsmeme.apps.post", "post", "/post"),
+    ("newsmeme.apps.user", "user", "/user"),
+    ("newsmeme.apps.comment", "comment", "/comment"),
+    ("newsmeme.apps.account", "account", "/acct"),
+    ("newsmeme.apps.feeds", "feeds", "/feeds"),
+    ("newsmeme.apps.openid", "openid", "/openid"),
+    ("newsmeme.apps.api", "api", "/api"),
 )
 
 
-def create_app(config=None, app_name=None, modules=None):
+def create_app(config=None, app_name=None, blueprints=None):
 
     if app_name is None:
         app_name = DEFAULT_APP_NAME
 
-    if modules is None:
-        modules = DEFAULT_MODULES
+    if blueprints is None:
+        blueprints = DEFAULT_BLUEPRINTS
 
     app = Flask(app_name)
 
@@ -63,7 +64,7 @@ def create_app(config=None, app_name=None, modules=None):
     configure_template_filters(app)
     configure_context_processors(app)
     # configure_after_handlers(app)
-    configure_modules(app, modules)
+    configure_blueprints(app, blueprints)
 
     return app
 
@@ -76,12 +77,6 @@ def configure_app(app, config):
         app.config.from_object(config)
 
     app.config.from_envvar('APP_CONFIG', silent=True)
-
-
-def configure_modules(app, modules):
-
-    for module, url_prefix in modules:
-        app.register_module(module, url_prefix=url_prefix)
 
 
 def configure_template_filters(app):
@@ -145,7 +140,7 @@ def configure_i18n(app):
     @babel.localeselector
     def get_locale():
         accept_languages = app.config.get('ACCEPT_LANGUAGES',
-                                          ['en_gb'])
+                                          ['zh_CN'])
 
         return request.accept_languages.best_match(accept_languages)
 
@@ -179,6 +174,33 @@ def configure_errorhandlers(app):
             return jsonify(error=_("Login required"))
         flash(_("Please login to see this page"), "error")
         return redirect(url_for("account.login", next=request.path))
+
+
+def configure_blueprints(app, blueprints):
+    for blueprint in blueprints:
+        _register_blueprint(app, blueprint)
+
+
+def _register_blueprint(app, blueprint):
+
+    if len(blueprint) is not 3:
+        raise SyntaxError('BLUEPRINTS Invalid syntax!!!')
+    path, name, prefix = blueprint
+
+    try:
+        packet = import_string(path + ".views")
+    except Exception, msg:
+        raise ImportError('import blueprint fail!!! %s' % msg)
+    modules_name = getattr(packet, name, None)
+    if not modules_name:
+        app.logger.error("import blueprint %s from %s failed!\n" %
+                         (name, packet + ".views"))
+        raise ImportError("import blueprint %s from %s failed!\n" %
+                          (name, packet + ".views"))
+    if prefix:
+        app.register_blueprint(modules_name, url_prefix=prefix)
+    else:
+        app.register_blueprint(modules_name)
 
 
 def configure_logging(app):
