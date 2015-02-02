@@ -140,7 +140,7 @@ def configure_i18n(app):
     @babel.localeselector
     def get_locale():
         accept_languages = app.config.get('ACCEPT_LANGUAGES',
-                                          ['zh_CN'])
+                                          ['en_gb'])
 
         return request.accept_languages.best_match(accept_languages)
 
