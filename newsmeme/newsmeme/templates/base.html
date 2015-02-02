@@ -3,18 +3,18 @@
     <head>
         <title>{% block title %}newsmeme{% endblock %}</title>
         {% block stylesheets %}
-        <link rel="stylesheet" href="{{ url_for('.static', filename='css/blueprint/screen.css') }}" type="text/css" media="screen, projection"> 
-        <link rel="stylesheet" href="{{ url_for('.static', filename='css/blueprint/print.css') }}" type="text/css" media="print"> 
-        <!--[if lt IE 8]><link rel="stylesheet" href="{{ url_for('.static', filename='css/blueprint/ie.css') }}" type="text/css" media="screen, projection"><![endif]--> 
-        <link rel="stylesheet" href="{{ url_for('.static', filename='css/base.css') }}" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blueprint/screen.css') }}" type="text/css" media="screen, projection"> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/blueprint/print.css') }}" type="text/css" media="print"> 
+        <!--[if lt IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='css/blueprint/ie.css') }}" type="text/css" media="screen, projection"><![endif]--> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" type="text/css" media="screen, projection">
         {% endblock %}
         {% block extra_stylesheets %}{% endblock %}
         {% block favicon %}
-        <link rel="shortcut icon" href="{{ url_for('.static', filename='images/favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
         {% endblock %}
         {% block javascripts %}
-        <script src="{{ url_for('.static', filename='js/jquery.min.js') }}"></script>
-        <script src="{{ url_for('.static', filename='js/newsmeme.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/newsmeme.js') }}"></script>
         {% endblock %}
         {% block extra_javascripts %}{% endblock %}
         {% block extrahead %}{% endblock %}

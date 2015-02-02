@@ -24,7 +24,7 @@ from newsmeme import create_app
 from newsmeme.extensions import db, mail
 from newsmeme.apps.post import Post, Tag
 from newsmeme.apps.comment import Comment
-from newsmeme.apps.account import User
+from newsmeme.apps.user import User
 
 manager = Manager(create_app)
 

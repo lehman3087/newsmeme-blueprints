@@ -13,8 +13,8 @@ from newsmeme import signals
 from newsmeme.extensions import db
 from newsmeme.permissions import auth, moderator
 from newsmeme.helpers import markdown
-from newsmeme.models.posts import Post
-from newsmeme.models.users import User
+from newsmeme.apps.post import Post
+from newsmeme.apps.user import User
 from newsmeme.types import DenormalizedText
 
 

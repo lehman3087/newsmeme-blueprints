@@ -24,7 +24,7 @@ from flask.ext.principal import Principal, identity_loaded
 from werkzeug import import_string
 from newsmeme import helpers
 from newsmeme.config import DefaultConfig
-from newsmeme.apps.account import User
+from newsmeme.apps.user import User
 from newsmeme.apps.post import Tag
 from newsmeme.helpers import render_template
 from newsmeme.extensions import db, mail, oid, cache

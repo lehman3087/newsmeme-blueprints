@@ -15,7 +15,7 @@ from newsmeme.extensions import db
 from newsmeme.helpers import slugify, domain, markdown
 from newsmeme.permissions import auth, moderator
 from newsmeme.types import DenormalizedText
-from newsmeme.models.users import User
+from newsmeme.apps.user import User
 
 
 class PostQuery(BaseQuery):
