@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-    __init__.py
-
-"""
-
+from flask import Blueprint
+feeds = Blueprint('feeds', __name__, template_folder='templates')

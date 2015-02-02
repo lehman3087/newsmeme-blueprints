@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Module, redirect, flash, g, jsonify, current_app
+from flask import redirect, flash, g, jsonify, current_app
 
 from flask.ext.mail import Message
 from flask.ext.babel import gettext as _
 
 from newsmeme import signals
+from newsmeme.apps.comment import comment
 from newsmeme.helpers import render_template
 from newsmeme.permissions import auth
-from newsmeme.models import Comment
-from newsmeme.forms import CommentForm, CommentAbuseForm
 from newsmeme.extensions import db, mail
-
-comment = Module(__name__)
+from .forms import CommentForm, CommentAbuseForm
+from .models import Comment
 
 
 @comment.route("/<int:comment_id>/edit/", methods=("GET", "POST"))
@@ -35,7 +34,7 @@ def edit(comment_id):
 
         return redirect(comment.url)
 
-    return render_template("comment/edit_comment.html",
+    return render_template("edit_comment.html",
                            comment=comment,
                            form=form)
 
@@ -83,7 +82,7 @@ def report_abuse(comment_id):
 
         return redirect(comment.url)
 
-    return render_template("comment/report_abuse.html",
+    return render_template("report_abuse.html",
                            comment=comment,
                            form=form)
 

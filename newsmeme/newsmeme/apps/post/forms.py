@@ -5,8 +5,8 @@ from wtforms import TextField, TextAreaField, RadioField, SubmitField
 from wtforms.validators import ValidationError, Required, Optional, URL
 from flask.ext.babel import gettext, lazy_gettext as _
 
-from newsmeme.models import Post
 from newsmeme.extensions import db
+from .models import Post
 
 
 class PostForm(Form):

@@ -280,7 +280,7 @@ class Post(db.Model):
         Returns comments in tree. Each parent comment has a "comments" 
         attribute appended and a "depth" attribute.
         """
-        from newsmeme.models.comments import Comment
+        from newsmeme.apps.comment import Comment
 
         comments = Comment.query.filter(Comment.post_id == self.id).all()
 

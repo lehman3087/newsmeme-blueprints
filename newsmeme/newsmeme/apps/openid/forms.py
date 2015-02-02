@@ -5,8 +5,8 @@ from flask_wtf import Form, RecaptchaField
 from wtforms import HiddenField, TextField, SubmitField
 from wtforms.validators import ValidationError, Required, Email, URL
 from flask.ext.babel import gettext, lazy_gettext as _
-from newsmeme.models import User
-from newsmeme.apps.account import is_username
+from newsmeme.apps.user import User
+from newsmeme.validators import is_username
 
 
 class OpenIdSignupForm(Form):

@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from datetime import datetime
-
-from flask import Module, request, url_for
-
+from flask import request
 from werkzeug.contrib.atom import AtomFeed
-
-from newsmeme.models import User, Post, Tag
+from newsmeme.apps.feeds import feeds
+from newsmeme.apps.user import User
+from newsmeme.apps.post import Post, Tag
 from newsmeme.helpers import cached
-
-feeds = Module(__name__)
 
 
 class PostFeed(AtomFeed):

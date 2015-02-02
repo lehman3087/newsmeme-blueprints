@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Module, redirect, url_for, session, flash, \
-    abort, request, current_app
+from flask import redirect, url_for, session, flash, abort, request, current_app
 
 from flask.ext.babel import gettext as _
 from flask.ext.principal import Identity, identity_changed
-
-from newsmeme.models import User
+from newsmeme.apps.openid import openid
+from newsmeme.apps.user import User
 from newsmeme.helpers import slugify, render_template
-from newsmeme.forms import OpenIdSignupForm, OpenIdLoginForm
 from newsmeme.extensions import oid, db
-
-openid = Module(__name__)
+from .forms import OpenIdSignupForm, OpenIdLoginForm
 
 
 @oid.after_login
@@ -74,7 +71,7 @@ def login():
         return oid.try_login(form.openid.data,
                              ask_for=('email', 'fullname', 'nickname'))
 
-    return render_template("openid/login.html",
+    return render_template("openid_login.html",
                            form=form,
                            error=oid.fetch_error())
 
@@ -109,4 +106,4 @@ def signup():
 
         return redirect(next_url)
 
-    return render_template("openid/signup.html", form=form)
+    return render_template("openid_signup.html", form=form)

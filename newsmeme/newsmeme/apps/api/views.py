@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Module, jsonify, request
+from flask import jsonify, request
 
-from newsmeme.models import Post, User
+from newsmeme.apps.api import api
+from newsmeme.apps.post import Post
+from newsmeme.apps.user import User
 from newsmeme.helpers import cached
 
-api = Module(__name__)
 
 @api.route("/post/<int:post_id>/")
 @cached()
@@ -31,7 +32,7 @@ def search():
         num_results = 100
 
     posts = Post.query.search(keywords).public().limit(num_results)
-    
+
     return jsonify(results=list(posts.jsonify()))
 
 
@@ -40,7 +41,7 @@ def search():
 def user(username):
 
     user = User.query.filter_by(username=username).first_or_404()
-    
+
     posts = Post.query.filter_by(author_id=user.id).public()
 
     return jsonify(posts=list(posts.jsonify()))

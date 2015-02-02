@@ -7,10 +7,9 @@ from wtforms import HiddenField, BooleanField, TextField,\
 from wtforms.validators import ValidationError, Required, Email, EqualTo
 from flask.ext.babel import gettext, lazy_gettext as _
 
-from newsmeme.models import User
+from newsmeme.apps.user import User
 from newsmeme.extensions import db
-
-from .validators import is_username
+from newsmeme.validators import is_username
 
 
 class LoginForm(Form):

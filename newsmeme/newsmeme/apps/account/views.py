@@ -3,22 +3,21 @@
 
 import uuid
 
-from flask import Module, flash, request, g, current_app, \
+from flask import flash, request, g, current_app, \
     abort, redirect, url_for, session, jsonify
 
 from flask.ext.mail import Message
 from flask.ext.babel import gettext as _
 from flask.ext.principal import identity_changed, Identity, AnonymousIdentity
 
-from newsmeme.forms import ChangePasswordForm, EditAccountForm, \
-    DeleteAccountForm, LoginForm, SignupForm, RecoverPasswordForm
-
-from newsmeme.models import User
+from newsmeme.apps.account import account
+from newsmeme.apps.user import User
 from newsmeme.helpers import render_template
 from newsmeme.extensions import db, mail
 from newsmeme.permissions import auth
 
-account = Module(__name__)
+from .forms import ChangePasswordForm, EditAccountForm, \
+    DeleteAccountForm, LoginForm, SignupForm, RecoverPasswordForm
 
 
 @account.route("/login/", methods=("GET", "POST"))
@@ -64,7 +63,7 @@ def login():
 
             flash(_("Sorry, invalid login"), "error")
 
-    return render_template("account/login.html", form=form)
+    return render_template("login.html", form=form)
 
 
 @account.route("/signup/", methods=("GET", "POST"))
@@ -92,7 +91,7 @@ def signup():
 
         return redirect(next_url)
 
-    return render_template("account/signup.html", form=form)
+    return render_template("signup.html", form=form)
 
 
 @account.route("/logout/")
@@ -138,7 +137,7 @@ def forgot_password():
 
             flash(_("Sorry, no user found for that email address"), "error")
 
-    return render_template("account/recover_password.html", form=form)
+    return render_template("recover_password.html", form=form)
 
 
 @account.route("/changepass/", methods=("GET", "POST"))
@@ -173,7 +172,7 @@ def change_password():
 
         return redirect(url_for("account.login"))
 
-    return render_template("account/change_password.html", form=form)
+    return render_template("change_password.html", form=form)
 
 
 @account.route("/edit/", methods=("GET", "POST"))
@@ -191,7 +190,7 @@ def edit():
 
         return redirect(url_for("frontend.index"))
 
-    return render_template("account/edit_account.html", form=form)
+    return render_template("edit_account.html", form=form)
 
 
 @account.route("/delete/", methods=("GET", "POST"))
@@ -213,7 +212,7 @@ def delete():
 
         return redirect(url_for("frontend.index"))
 
-    return render_template("account/delete_account.html", form=form)
+    return render_template("delete_account.html", form=form)
 
 
 @account.route("/follow/<int:user_id>/", methods=("POST",))

@@ -1,19 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Module, url_for, g, redirect, flash, current_app
+from flask import url_for, g, redirect, flash, current_app
 
 from flask.ext.mail import Message
 from flask.ext.babel import gettext as _
 
 from newsmeme.helpers import render_template, cached
-from newsmeme.models import Post, User, Comment
+from newsmeme.apps.user import user
+
+from newsmeme.apps.post import Post
+from newsmeme.apps.comment import Comment
 from newsmeme.decorators import keep_login_url
-from newsmeme.forms import MessageForm
 from newsmeme.extensions import mail
 from newsmeme.permissions import auth
-
-user = Module(__name__)
+from .forms import MessageForm
+from .models import User
 
 
 @user.route("/message/<int:user_id>/", methods=("GET", "POST"))
@@ -48,7 +50,7 @@ def send_message(user_id):
 
         return redirect(url_for("user.posts", username=user.username))
 
-    return render_template("user/send_message.html", user=user, form=form)
+    return render_template("send_message.html", user=user, form=form)
 
 
 @user.route("/<username>/")
@@ -69,7 +71,7 @@ def posts(username, page=1):
     num_comments = Comment.query.filter_by(author_id=user.id).\
         restricted(g.user).count()
 
-    return render_template("user/posts.html",
+    return render_template("posts.html",
                            user=user,
                            num_posts=page_obj.total,
                            num_comments=num_comments,
@@ -96,7 +98,7 @@ def comments(username, page=1):
     num_posts = Post.query.filter_by(author_id=user.id).\
         restricted(g.user).count()
 
-    return render_template("user/comments.html",
+    return render_template("comments.html",
                            user=user,
                            num_posts=num_posts,
                            num_comments=page_obj.total,
@@ -120,7 +122,7 @@ def followers(username, page=1):
 
     followers = user.get_followers().order_by(User.username.asc())
 
-    return render_template("user/followers.html",
+    return render_template("followers.html",
                            user=user,
                            num_posts=num_posts,
                            num_comments=num_comments,
@@ -143,7 +145,7 @@ def following(username, page=1):
 
     following = user.get_following().order_by(User.username.asc())
 
-    return render_template("user/following.html",
+    return render_template("following.html",
                            user=user,
                            num_posts=num_posts,
                            num_comments=num_comments,

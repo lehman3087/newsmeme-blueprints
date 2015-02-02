@@ -1,21 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Module, abort, jsonify, request,  \
-    g, url_for, redirect, flash, current_app
+from flask import abort, jsonify, request, g, url_for, redirect, flash, current_app
 
 from flask.ext.mail import Message
 from flask.ext.babel import gettext as _
 
 from newsmeme import signals
-from newsmeme.models import Post, Comment
-from newsmeme.forms import CommentForm, PostForm
+from newsmeme.apps.post import post
+from newsmeme.apps.comment import Comment, CommentForm
 from newsmeme.helpers import render_template
 from newsmeme.decorators import keep_login_url
 from newsmeme.extensions import db, mail, cache
 from newsmeme.permissions import auth
-
-post = Module(__name__)
+from .forms import PostForm
+from .models import Post
 
 
 @post.route("/<int:post_id>/")
@@ -35,7 +34,7 @@ def view(post_id, slug=None):
     def edit_comment_form(comment):
         return CommentForm(obj=comment)
 
-    return render_template("post/post.html",
+    return render_template("post.html",
                            comment_form=CommentForm(),
                            edit_comment_form=edit_comment_form,
                            post=post)
@@ -102,7 +101,7 @@ def add_comment(post_id, parent_id=None):
 
         return redirect(comment.url)
 
-    return render_template("post/add_comment.html",
+    return render_template("add_comment.html",
                            parent=parent,
                            post=post,
                            form=form)
@@ -139,7 +138,7 @@ def edit(post_id):
             flash(_("Your post has been updated"), "success")
         return redirect(url_for("post.view", post_id=post_id))
 
-    return render_template("post/edit_post.html",
+    return render_template("edit_post.html",
                            post=post,
                            form=form)
 
