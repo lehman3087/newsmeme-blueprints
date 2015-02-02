@@ -10,9 +10,9 @@ newsmeme-blueprints
 
 但是由于原作者已经不再更新代码了，随着 Flask 以及一些插件的升级，有些代码不能在新版本运行，因此需要对代码进行一些修改并且修复一些问题。
 
-**更新后的 newsmeme 位于  `newsmeme <https://github.com/sixu05202004/newsmeme>`_  **
+**更新后的 newsmeme 位于  `newsmeme <https://github.com/sixu05202004/newsmeme>`_  。**
 
-**为 Flask 推荐大的项目最好使用 `蓝图 <http://www.pythondoc.com/flask/blueprints.html>`_ ，为了帮助大家能够更好的理解 `蓝图 <http://www.pythondoc.com/flask/blueprints.html>`_ 的概念，这里把 newsmeme 修改成蓝图版的!**
+**为 Flask 推荐大的项目最好使用  `蓝图 <http://www.pythondoc.com/flask/blueprints.html>`_   ，为了帮助大家能够更好的理解  `蓝图 <http://www.pythondoc.com/flask/blueprints.html>`_  的概念，这里把 newsmeme 修改成蓝图版的!**
 
 本项目为 Flask 开发 web 的经典项目，涉及到很多领域：
 	
