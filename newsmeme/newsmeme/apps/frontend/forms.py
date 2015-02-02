@@ -23,14 +23,3 @@ class ContactForm(Form):
                             Required(message=_("Message required"))])
 
     submit = SubmitField(_("Send"))
-
-
-class MessageForm(Form):
-
-    subject = TextField(_("Subject"), validators=[
-                        Required(message=_("Subject required"))])
-
-    message = TextAreaField(_("Message"), validators=[
-                            Required(message=_("Message required"))])
-
-    submit = SubmitField(_("Send"))

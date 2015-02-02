@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from flask_wtf import Form
 from wtforms import TextField, TextAreaField, RadioField, SubmitField
 from wtforms.validators import ValidationError, Required, Optional, URL
